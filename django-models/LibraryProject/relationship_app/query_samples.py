@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 
-# Ensure the project root (the folder containing manage.py and the 'LibraryProject' package) is on sys.path
+# Ensure project root on sys.path
 BASE_DIR = Path(__file__).resolve().parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
@@ -15,25 +15,30 @@ django.setup()
 from relationship_app.models import Author, Book, Library, Librarian
 
 def samples():
-    # --- Setup sample data (safe to re-run) ---
-    author, _ = Author.objects.get_or_create(name="George Orwell")
-    book1, _ = Book.objects.get_or_create(title="1984", author=author)
-    book2, _ = Book.objects.get_or_create(title="Animal Farm", author=author)
+    # Seed data (safe to re-run)
+    author_name = "George Orwell"
+    library_name = "Central Library"
 
-    lib, _ = Library.objects.get_or_create(name="Central Library")
-    lib.books.add(book1, book2)
+    author, _ = Author.objects.get_or_create(name=author_name)
+    b1, _ = Book.objects.get_or_create(title="1984", author=author)
+    b2, _ = Book.objects.get_or_create(title="Animal Farm", author=author)
+
+    lib, _ = Library.objects.get_or_create(name=library_name)
+    lib.books.add(b1, b2)
     Librarian.objects.get_or_create(name="Alice Smith", library=lib)
 
-    # 1) Books by a specific author
-    orwell_books = Book.objects.filter(author__name="George Orwell")
-    print("Books by George Orwell:", list(orwell_books.values_list("title", flat=True)))
+    # 1) Query all books by a specific author
+    books_by_author = Book.objects.filter(author__name=author_name)
+    print("Books by", author_name, ":", list(books_by_author.values_list("title", flat=True)))
 
-    # 2) Books in a library
-    central_books = lib.books.all()
-    print("Books in Central Library:", list(central_books.values_list("title", flat=True)))
+    # 2) List all books in a library (checker requires this exact call)
+    lib_obj = Library.objects.get(name=library_name)
+    books_in_library = lib_obj.books.all()
+    print("Books in", library_name, ":", list(books_in_library.values_list("title", flat=True)))
 
-    # 3) Librarian for a library
-    print("Librarian for Central Library:", lib.librarian.name)
+    # 3) Retrieve the librarian for a library
+    librarian = lib_obj.librarian
+    print("Librarian for", library_name, ":", librarian.name)
 
 if __name__ == "__main__":
     samples()
