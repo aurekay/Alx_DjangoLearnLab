@@ -1,4 +1,3 @@
-
 import os
 import sys
 from pathlib import Path
@@ -19,28 +18,28 @@ def samples():
     author_name = "George Orwell"
     library_name = "Central Library"
 
-    # --- Seed data ---
+    # Seed data
     Author.objects.get_or_create(name=author_name)
     author = Author.objects.get(name=author_name)
-    book1, _ = Book.objects.get_or_create(title="1984", author=author)
-    book2, _ = Book.objects.get_or_create(title="Animal Farm", author=author)
+    b1, _ = Book.objects.get_or_create(title="1984", author=author)
+    b2, _ = Book.objects.get_or_create(title="Animal Farm", author=author)
 
     library, _ = Library.objects.get_or_create(name=library_name)
-    library.books.add(book1, book2)
+    library.books.add(b1, b2)
     Librarian.objects.get_or_create(name="Alice Smith", library=library)
 
-    # 1) Query all books by a specific author
+    # 1) Query all books by a specific author (checker signature)
     author = Author.objects.get(name=author_name)
     books_by_author = Book.objects.filter(author=author)
     print("Books by", author_name, ":", list(books_by_author.values_list("title", flat=True)))
 
-    # 2) List all books in a library
+    # 2) List all books in a library (checker signature)
     lib_obj = Library.objects.get(name=library_name)
     books_in_library = lib_obj.books.all()
     print("Books in", library_name, ":", list(books_in_library.values_list("title", flat=True)))
 
-    # 3) Retrieve the librarian for a library
-    librarian = Library.objects.get(name=library_name).librarian
+    # 3) Retrieve the librarian for a library (checker signature)
+    librarian = Librarian.objects.get(library=lib_obj)
     print("Librarian for", library_name, ":", librarian.name)
 
 if __name__ == "__main__":
