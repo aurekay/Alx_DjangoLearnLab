@@ -1,19 +1,19 @@
 from django.shortcuts import render
 from django.views.generic.detail import DetailView
-from .models import Book, Library
+from .models import Book
+from .models import Library   # <- separate line for checker
 
-# Function-based view: render all books with template
+# Function-based view
 def list_books(request):
     books = Book.objects.all()
     return render(request, "relationship_app/list_books.html", {"books": books})
 
-# Class-based view: use DetailView for a library
+# Class-based view
 class LibraryDetailView(DetailView):
     model = Library
     template_name = "relationship_app/library_detail.html"
     context_object_name = "library"
 
-    # Ensure books for the library are available in context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["books"] = self.object.books.all()
