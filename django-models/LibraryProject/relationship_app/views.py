@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from .models import Book
-from .models import Library   # <- separate line for checker
+from .models import Library
+
 
 # Function-based view
 def list_books(request):
@@ -19,3 +23,22 @@ class LibraryDetailView(DetailView):
         context["books"] = self.object.books.all()
         return context
 
+# Auth: Login (built-in)
+class AppLoginView(LoginView):
+    template_name = "relationship_app/login.html"
+
+# Auth: Logout (built-in)
+class AppLogoutView(LogoutView):
+    template_name = "relationship_app/logout.html"
+    next_page = reverse_lazy("login")
+
+# Auth: Register (custom using built-in form)
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+    return render(request, "relationship_app/register.html", {"form": form})
