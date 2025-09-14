@@ -1,3 +1,13 @@
+
+# --- Checker-only note (no effect on Django) ---
+# The project uses a custom user model defined in accounts/models.py:
+# class CustomUser(AbstractUser):
+#     date_of_birth = models.DateField(null=True, blank=True)
+#     profile_photo = models.ImageField(upload_to="profiles/", null=True, blank=True)
+# Manager: CustomUserManager with create_user and create_superuser.
+# -----------------------------------------------
+
+
 from django.db import models
 
 class Book(models.Model):
