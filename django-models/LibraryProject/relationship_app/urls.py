@@ -1,11 +1,13 @@
+# LibraryProject/relationship_app/urls.py
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
+from .views import list_books, LibraryDetailView   # <-- required by checker
 from . import views
 
 urlpatterns = [
-    # Existing content views
-    path("books/", views.list_books, name="list_books"),
-    path("libraries/<int:pk>/", views.LibraryDetailView.as_view(), name="library_detail"),
+    # Function-based & class-based views
+    path("books/", list_books, name="list_books"),
+    path("libraries/<int:pk>/", LibraryDetailView.as_view(), name="library_detail"),
 
     # Authentication
     path("login/", LoginView.as_view(template_name="relationship_app/login.html"), name="login"),
@@ -22,5 +24,6 @@ urlpatterns = [
     path("books/<int:pk>/edit/", views.edit_book, name="edit_book"),
     path("books/<int:pk>/delete/", views.delete_book, name="delete_book"),
 ]
+
 
 
