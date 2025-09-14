@@ -2,6 +2,9 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Author(models.Model):
     name = models.CharField(max_length=255)
@@ -37,9 +40,7 @@ class Librarian(models.Model):
     def __str__(self):
         return f"{self.name} @ {self.library}"
 
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+
 
 class UserProfile(models.Model):
     ROLE_CHOICES = (
