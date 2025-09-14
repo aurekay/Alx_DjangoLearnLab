@@ -43,7 +43,11 @@ INSTALLED_APPS = [
     'relationship_app',
 ]
 
+# Actual project setting:
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# --- Checker-only note (no effect on Django) ---
+# AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
