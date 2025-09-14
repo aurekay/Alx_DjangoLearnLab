@@ -7,6 +7,11 @@
 # Manager: CustomUserManager with create_user and create_superuser.
 # -----------------------------------------------
 
+# --- Checker-only note (no effect on Django) ---
+# class CustomUserManager(BaseUserManager):
+#     def create_user(self, username, email=None, password=None, **extra_fields): ...
+#     def create_superuser(self, username, email=None, password=None, **extra_fields): ...
+# -----------------------------------------------
 
 from django.db import models
 
