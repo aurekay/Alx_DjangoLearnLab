@@ -1,13 +1,21 @@
-
 # Permissions & Groups (bookshelf app)
 
-Custom permissions on `bookshelf.Book`:
-- `can_view`, `can_create`, `can_edit`, `can_delete`
+## Custom Permissions on `bookshelf.Book`
+- `can_view`: Can view books
+- `can_create`: Can create books
+- `can_edit`: Can edit books
+- `can_delete`: Can delete books
 
-Views (example) protected with `permission_required` in `LibraryProject/bookshelf/views.py`:
-- `bookshelf.can_view`, `bookshelf.can_create`, `bookshelf.can_edit`, `bookshelf.can_delete`
+## Permission-Protected Views (`bookshelf/views.py`)
+- `book_list` → requires `bookshelf.can_view`
+- `book_create` → requires `bookshelf.can_create`
+- `book_edit` → requires `bookshelf.can_edit`
+- `book_delete` → requires `bookshelf.can_delete`
 
-Example groups:
-- **Viewers**: can_view
-- **Editors**: can_view, can_create, can_edit
-- **Admins**: can_view, can_create, can_edit, can_delete
+## Groups Setup
+- **Viewers**: assigned `can_view`
+- **Editors**: assigned `can_view`, `can_create`, `can_edit`
+- **Admins**: assigned all permissions (`can_view`, `can_create`, `can_edit`, `can_delete`)
+
+These groups are configured via Django Admin.
+
